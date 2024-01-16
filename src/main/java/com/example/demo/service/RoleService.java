@@ -13,6 +13,10 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
+
+
+
+
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
@@ -43,6 +47,7 @@ public class RoleService {
 
 
     public Role updateRole(String id, String nuevoNombre) {
+        // Buscar el rol por ID
         Role role = roleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("No se encontró un rol con el ID proporcionado"));
 
@@ -63,7 +68,6 @@ public class RoleService {
         // Guardar el rol actualizado en la base de datos
         return roleRepository.save(role);
     }
-
 
 
 
