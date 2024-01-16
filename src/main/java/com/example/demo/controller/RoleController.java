@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/roles")
@@ -34,9 +35,11 @@ public class RoleController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Role updateRole(@PathVariable String id, @RequestBody Role role) {
-        return roleService.updateRole(id, role);
+    public Role updateRole(@PathVariable String id, @RequestBody Map<String, String> roleUpdate) {
+        String nuevoNombre = roleUpdate.get("tipoDeRole");
+        return roleService.updateRole(id, nuevoNombre);
     }
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

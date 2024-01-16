@@ -18,5 +18,5 @@ public class Role {
     private String tipoDeRole;
 
 
-    // Constructor, getters y setters
+
 }
