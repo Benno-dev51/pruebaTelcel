@@ -5,8 +5,8 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -15,63 +15,25 @@ public class UserService {
     @Autowired
     private RoleService roleService;
 
-
-
     public List<User> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users;
+        return userRepository.findAll();
     }
-
-
 
     public User getUserById(String id) {
         return userRepository.findById(id).orElse(null);
     }
 
-
-
-
     public User addUser(User user) {
-        // Verificar que el usuario no sea nulo
-        if (user == null) {
-            throw new IllegalArgumentException("El usuario no puede ser nulo.");
-        }
-
-        // Verificar que el rol del usuario exista
-        List<Role> roles = user.getRoles();
-        for (Role role : roles) {
-            Role existingRole = roleService.getRoleById(role.getId());
-            if (existingRole == null) {
-                throw new IllegalArgumentException("El rol con ID " + role.getId() + " no existe.");
-            }
-        }
-
-        // Puedes realizar otras validaciones del usuario si es necesario
-
-        // Guardar el usuario en la base de datos
+        validateUser(user);
+        setRoleIds(user.getRoles());
         return userRepository.save(user);
     }
-
-
-
-
 
     public User updateUser(String id, User updatedUser) {
         return userRepository.findById(id)
                 .map(user -> {
-                    // Puedes agregar lógica adicional antes de actualizar
-
-                    // Actualizar los campos del usuario
-                    user.setNombre(updatedUser.getNombre());
-                    user.setApellidoPaterno(updatedUser.getApellidoPaterno());
-                    user.setApellidoMaterno(updatedUser.getApellidoMaterno());
-
-                    // Actualizar la referencia al rol
-                    user.setRoles(updatedUser.getRoles());
-
-                    // Puedes seguir actualizando otros campos según tus necesidades
-
-                    // Guardar el usuario actualizado en la base de datos
+                    validateUser(updatedUser);
+                    updateFields(user, updatedUser);
                     return userRepository.save(user);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("No se encontró un usuario con el ID proporcionado"));
@@ -81,5 +43,40 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    private void validateUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("El usuario no puede ser nulo.");
+        }
+        validateRolesExist(user.getRoles());
+    }
 
+    private void validateRolesExist(List<Role> roles) {
+        for (Role role : roles) {
+            Optional<Role> existingRole = roleService.getRoleByType(role.getTipoDeRole());
+            if (existingRole.isEmpty()) {
+                throw new IllegalArgumentException("El rol con tipo " + role.getTipoDeRole() + " no existe.");
+            }
+            role.setId(existingRole.get().getId());
+        }
+    }
+
+    private void setRoleIds(List<Role> roles) {
+        for (Role role : roles) {
+            Optional<Role> existingRole = roleService.getRoleByType(role.getTipoDeRole());
+            role.setId(existingRole.get().getId());
+        }
+    }
+
+    private void updateFields(User user, User updatedUser) {
+        user.setNombre(updatedUser.getNombre());
+        user.setApellidoPaterno(updatedUser.getApellidoPaterno());
+        user.setApellidoMaterno(updatedUser.getApellidoMaterno());
+        updateRoles(user, updatedUser.getRoles());
+    }
+
+    private void updateRoles(User user, List<Role> updatedRoles) {
+        validateRolesExist(updatedRoles);
+        setRoleIds(updatedRoles);
+        user.setRoles(updatedRoles);
+    }
 }

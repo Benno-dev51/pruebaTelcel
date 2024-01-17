@@ -13,10 +13,8 @@ public class Role {
     @Getter
     @Setter
     private String id;
+
     @Getter
     @Setter
     private String tipoDeRole;
-
-
-
 }

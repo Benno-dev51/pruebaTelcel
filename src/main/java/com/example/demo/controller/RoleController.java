@@ -5,7 +5,6 @@ import com.example.demo.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +38,6 @@ public class RoleController {
         String nuevoNombre = roleUpdate.get("tipoDeRole");
         return roleService.updateRole(id, nuevoNombre);
     }
-
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
