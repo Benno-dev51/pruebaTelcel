@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -32,12 +33,22 @@ public class UserService {
     public User updateUser(String id, User updatedUser) {
         return userRepository.findById(id)
                 .map(user -> {
-                    validateUser(updatedUser);
+                    if (StringUtils.isBlank(updatedUser.getNombre()) || StringUtils.isBlank(updatedUser.getApellidoPaterno())) {
+                        throw new IllegalArgumentException("Nombre y apellido paterno son campos obligatorios.");
+                    }
+
+                    if (!id.equals(updatedUser.getId())) {
+                        throw new IllegalArgumentException("El ID proporcionado no coincide con el ID del usuario a actualizar.");
+                    }
+
+                    validateRolesExist(updatedUser.getRoles());
                     updateFields(user, updatedUser);
+
                     return userRepository.save(user);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("No se encontró un usuario con el ID proporcionado"));
     }
+
 
     public void deleteUser(String id) {
         userRepository.deleteById(id);
