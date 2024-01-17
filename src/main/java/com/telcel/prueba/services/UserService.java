@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.telcel.prueba.services;
 
-import com.example.demo.model.Role;
-import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
+import com.telcel.prueba.models.Role;
+import com.telcel.prueba.models.User;
+import com.telcel.prueba.repositories.UserRepository;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

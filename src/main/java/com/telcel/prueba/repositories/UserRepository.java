@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.telcel.prueba.repositories;
 
-import com.example.demo.model.User;
+import com.telcel.prueba.models.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface UserRepository extends MongoRepository<User, String> {

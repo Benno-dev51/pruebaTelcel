@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.telcel.prueba.repositories;
 
-import com.example.demo.model.Role;
+import com.telcel.prueba.models.Role;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 

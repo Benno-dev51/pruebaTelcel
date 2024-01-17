@@ -1,7 +1,7 @@
-package com.example.demo.controller;
+package com.telcel.prueba.controllers;
 
-import com.example.demo.model.User;
-import com.example.demo.service.UserService;
+import com.telcel.prueba.models.User;
+import com.telcel.prueba.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

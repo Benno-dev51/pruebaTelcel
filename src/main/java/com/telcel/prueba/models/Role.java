@@ -1,6 +1,7 @@
-package com.example.demo.model;
+package com.telcel.prueba.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -8,13 +9,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "role")
 @AllArgsConstructor
+@Data
 public class Role {
     @Id
-    @Getter
-    @Setter
+
     private String id;
 
-    @Getter
-    @Setter
+
     private String tipoDeRole;
 }

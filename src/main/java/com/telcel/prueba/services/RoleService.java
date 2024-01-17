@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package com.telcel.prueba.services;
 
-import com.example.demo.model.Role;
-import com.example.demo.repository.RoleRepository;
+import com.telcel.prueba.models.Role;
+import com.telcel.prueba.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
